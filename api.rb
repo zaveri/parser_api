@@ -11,9 +11,10 @@ get '/sushi.json' do
   return {:sushi => ["Maguro", "Hamachi", "Uni", "Saba", "Ebi", "Sake", "Tai"]}.to_json
 end
 
-post '/parse' do
+post '/parse.json' do
   htmlBody = params[:html_body]
   doc = Nokogiri::HTML.parse(htmlBody, 'UTF-8')
   doc.css("div.gmail_quote").remove
-  return doc
+  content_type :json
+  return {:parsed_email => doc}.to_json
 end
