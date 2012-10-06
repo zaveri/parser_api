@@ -6,6 +6,10 @@ require 'gmail'
 require 'nokogiri'
 require 'open-uri'
 
+get '/' do
+  return "GANGNAM SYLE"
+end
+
 get '/sushi.json' do
   content_type :json
   return {:sushi => ["Maguro", "Hamachi", "Uni", "Saba", "Ebi", "Sake", "Tai"]}.to_json
