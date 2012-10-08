@@ -39,6 +39,24 @@ def remove_signature(node)
   end
 end
 
+def remove_google_groups
+  googleGroupMSG = Array.new
+  googleGroupMSG.push("To unsubscribe from this group",
+  "You received this message because you are subscribed",
+  "For more options, visit this group",
+  "You received this message because you are subscribed to the Google Groups",
+  "To post to this group, send email to escondido-basketball@googlegroups.com")
+  
+  googleGroupMSG.cycle(1) {|x|
+    doc.css("br").each {|n|
+      if(n.previous().content.include? x)
+            n.previous.remove
+            n.remove
+      end
+    } 
+  }
+end
+
 
 
 get '/' do
@@ -65,6 +83,7 @@ post '/parse.json' do
   }
   
   remove_blocquote_cite(doc)
+  remove_google_groups
       
   content_type :json
   return {:parsed_email => doc}.to_json
