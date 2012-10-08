@@ -7,6 +7,16 @@ require 'nokogiri'
 require 'open-uri'
 require'date'
 
+def remove_gmailExcess(doc)
+  doc.css("div.gmail_quote, blockquote.gmail_quote").remove
+end
+
+def remove_hotmailExcess(doc)
+end
+
+def remove_yahooExcess(doc)
+end
+
 
 
 def remove_time(node)
@@ -55,6 +65,12 @@ def remove_google_groups(doc)
       end
     } 
   }
+end
+
+def remove_yahoo_groups(doc)
+end
+
+def remove_hotmail_groups(doc)
 end
 
 
