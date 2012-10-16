@@ -99,7 +99,7 @@ post '/parse.json' do
   }
   
   remove_blocquote_cite(doc)
-  remove_google_groups(doc)
+  # remove_google_groups(doc)
       
   content_type :json
   return {:parsed_email => doc}.to_json
