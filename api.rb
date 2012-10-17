@@ -73,6 +73,75 @@ end
 def remove_hotmail_groups(doc)
 end
 
+def collect_between(first, last)
+  if first.respond_to?('next')
+    first == last ? [first] : [first, *collect_between(first.next, last)]
+  end
+end
+
+def parse_plain_text_email(doc)
+  @end_element = doc.at('body')
+  doc.css("br").each {|n|
+
+    if(n)
+      if n.next_sibling().respond_to?('content')
+        if(n.next_sibling().content.include? "Muzzammil Zaveri")
+          
+          tempCollection =  collect_between(n, @end_element.last_element_child)
+          tempCollection.each {|t| t.remove}
+          
+          # puts n.next_sibling().next.next.next.next.next.next.next.next
+          # n.css("").each {|temp|
+          #   puts "monkey"
+          #   puts temp
+          # }
+          # until n.css"body"
+          #   puts "ballin"
+          # end
+        end
+        # puts "IT IS INCLUDED"
+        # n.next_sibling().remove
+        # n.children.remove
+        # n.remove
+      else
+        # puts "NO GO"
+      end
+      # puts n.next_sibling().content
+
+      # n.children.remove
+      # n.remove
+    end
+
+  }
+  
+  # doc.css("br").each {|n|
+  # 
+  #   if(n)
+  #     if n.next_sibling().respond_to?('content')
+  #       # puts "IT IS INCLUDED"
+  #       n.next_sibling().remove
+  #       n.children.remove
+  #       n.remove
+  #     else
+  #       # puts "NO GO"
+  #     end
+  #   end
+  # 
+  # }
+  # 
+  # doc.css("br").each {|n|
+  #   # puts "inisd this cool method"
+  #   # puts n.next()
+  #   if n.next().content != nil
+  #     if(n.next().content.include? "Muzzammil Zaveri <m.h.zaveri@gmail.com>")
+  #       puts "IT IS INCLUDED"
+  #       n.children.remove
+  #       n.remove
+  #     end
+  #   end
+  # }
+end
+
 
 
 get '/' do
@@ -99,6 +168,7 @@ post '/parse.json' do
   }
   
   remove_blocquote_cite(doc)
+  parse_plain_text_email(doc)
   # remove_google_groups(doc)
       
   content_type :json
